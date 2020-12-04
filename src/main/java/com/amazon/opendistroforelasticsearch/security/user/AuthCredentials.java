@@ -175,19 +175,12 @@ public final class AuthCredentials {
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
-        if (obj == null)
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
-        if (getClass() != obj.getClass())
-            return false;
+        }
         AuthCredentials other = (AuthCredentials) obj;
-        if (internalPasswordHash == null || other.internalPasswordHash == null || !MessageDigest.isEqual(internalPasswordHash, other.internalPasswordHash))
-            return false;
-        if (username == null) {
-            if (other.username != null)
-                return false;
-        } else if (!username.equals(other.username))
-            return false;
-        return true;
+        return MessageDigest.isEqual(internalPasswordHash, other.internalPasswordHash)
+            && Objects.equals(username, other.username);
     }
 
     @Override
